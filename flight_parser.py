@@ -107,8 +107,8 @@ def main(argv: list[str] | None = None) -> int:
                 sys.stderr.write(f"Error: Database is not valid JSON: {e}\n")
                 return 1
 
-            if not isinstance(db_records, list):
-                sys.stderr.write("Error: Database must be a JSON array\n")
+            if not isinstance(db_records, list) or not all(isinstance(x, dict) for x in db_records):
+                sys.stderr.write("Error: Database must be a JSON array of objects\n")
                 return 1
 
             # run queries if requested

@@ -13,6 +13,10 @@ def parse_files(paths: list[str], airports: set[str]) -> tuple[list[dict], list[
         fname = os.path.basename(p)
         with open(p, "r", encoding="utf-8", newline="") as f:
             for line_no, line in enumerate(f, start=1):
+                # header is line 1, skip it without validating
+                if line_no == 1:
+                    continue
+
                 raw = line.rstrip("\r\n")
                 s = line.strip()
 
@@ -22,10 +26,6 @@ def parse_files(paths: list[str], airports: set[str]) -> tuple[list[dict], list[
 
                 # skip comment lines starting with #
                 if s.startswith("#"):
-                    continue
-
-                # header is line 1, skip it
-                if line_no == 1:
                     continue
 
                 # split csv line into fields
